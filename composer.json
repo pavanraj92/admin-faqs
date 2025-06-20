@@ -1,0 +1,22 @@
+{
+    "name": "admin/faqs",
+    "description": "Add, edit, or remove frequently asked questions to help users quickly find answers to common queries.",
+    "type": "library",
+    "version": "1.0.0",  
+    "license": "MIT",
+    "autoload": {
+      "psr-4": {
+        "admin\\faqs\\": "src/"
+      }
+    },
+    "extra": { 
+      "laravel": {
+        "providers": [
+          "admin\\faqs\\FaqTemplateServiceProvider"
+        ]
+      }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+  }
+  
