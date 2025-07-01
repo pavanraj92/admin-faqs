@@ -1,6 +1,9 @@
 @extends('admin::admin.layouts.master')
 
 @section('title', 'Faqs Management')
+@section('meta_description')
+Manage FAQs in the admin panel. Create or edit FAQ question, answer, and status.
+@endsection
 
 @section('page-title', 'Create Faq')
 

@@ -12,7 +12,7 @@
     "extra": { 
       "laravel": {
         "providers": [
-          "admin\\faqs\\FaqTemplateServiceProvider"
+          "admin\\faqs\\FaqServiceProvider"
         ]
       }
     },
