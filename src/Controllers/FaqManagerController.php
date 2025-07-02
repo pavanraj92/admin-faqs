@@ -8,7 +8,7 @@ use admin\faqs\Requests\FaqCreateRequest;
 use admin\faqs\Requests\FaqUpdateRequest;
 use admin\faqs\Models\Faq;
 
-class FaqController extends Controller
+class FaqManagerController extends Controller
 {
     public function index(Request $request)
     {

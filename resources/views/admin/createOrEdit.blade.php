@@ -58,7 +58,7 @@ Manage FAQs in the admin panel. Create or edit FAQ question, answer, and status.
                         </div>
                        
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
                             <a href="{{ route('admin.faqs.index') }}" class="btn btn-secondary">Back</a>
                         </div>
                     </form>
@@ -145,7 +145,9 @@ Manage FAQs in the admin panel. Create or edit FAQ question, answer, and status.
                     if (ckEditorInstance) {
                         $('#answer').val(ckEditorInstance.getData());
                     }
-
+                    const $btn = $('#saveBtn');
+                    $btn.prop('disabled', true).text('Saving...');
+                    
                     // Now submit
                     form.submit();
                 },

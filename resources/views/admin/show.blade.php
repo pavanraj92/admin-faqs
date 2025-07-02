@@ -21,7 +21,7 @@ Manage FAQs in the admin panel. Create, edit, or update FAQ questions, answers, 
                 <div class="card">                    
                     <div class="table-responsive">
                          <div class="card-body">      
-                            <table class="table table-bordered table-responsive-lg">                            
+                            <table class="table table-responsive-lg table-no-border">
                                 <tbody>
                                     <tr>
                                         <th scope="row">Question</th>
