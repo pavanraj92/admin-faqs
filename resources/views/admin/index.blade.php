@@ -1,9 +1,6 @@
 @extends('admin::admin.layouts.master')
 
 @section('title', 'Faqs Management')
-@section('meta_description')
-Manage FAQs in the admin panel. Create, edit, or update FAQ questions, answers, and status.
-@endsection
 
 @section('page-title', 'Manage Faqs')
 
@@ -93,7 +90,9 @@ Manage FAQs in the admin panel. Create, edit, or update FAQ questions, answers, 
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    {{ $faq->created_at->format('Y-m-d H:i:s') }}
+                                                    {{ $faq->created_at
+                                                        ? $faq->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
+                                                        : '—' }}
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('admin.faqs.edit', $faq) }}"
@@ -122,7 +121,7 @@ Manage FAQs in the admin panel. Create, edit, or update FAQ questions, answers, 
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="5" class="text-center">No faqs found.</td>
+                                            <td colspan="4" class="text-center">No faqs found.</td>
                                         </tr>
                                     @endif
                                 </tbody>

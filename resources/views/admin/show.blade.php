@@ -1,9 +1,6 @@
 @extends('admin::admin.layouts.master')
 
 @section('title', 'Faqs Management')
-@section('meta_description')
-Manage FAQs in the admin panel. Create, edit, or update FAQ questions, answers, and status.
-@endsection
 
 @section('page-title', 'Faq Details')
 
@@ -33,11 +30,13 @@ Manage FAQs in the admin panel. Create, edit, or update FAQ questions, answers, 
                                     </tr>
                                     <tr>
                                         <th scope="row">Status</th>
-                                        <td scope="col"> {!! config('faq.constants.aryStatusLabel.' . $faq->status, 'N/A') !!}</td>
+                                        <td scope="col"> {!! config('admin.constants.aryStatusLabel.' . $faq->status, 'N/A') !!}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Created At</th>
-                                        <td scope="col">{{ $faq->created_at ?? 'N/A' }}</td>
+                                        <td scope="col">{{ $faq->created_at
+                                            ? $faq->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
+                                            : '—' }}</td>
                                     </tr>
                                 </tbody>
                             </table>
