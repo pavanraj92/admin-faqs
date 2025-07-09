@@ -10,26 +10,6 @@ use Illuminate\Support\Facades\File;
 
 class FaqServiceProvider extends ServiceProvider
 {
-    // public function boot()
-    // {
-    //     // Load routes, views, migrations from the package
-    //     // $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-    //     $this->loadViewsFrom(__DIR__.'/../resources/views', 'faq');
-    //     $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-    //     $this->mergeConfigFrom(__DIR__.'/../config/faq.php', 'faq.constants');
-        
-
-    //     $this->publishes([  
-    //         __DIR__ . '/../config/faq.php' => config_path('constants/faq.php'),
-    //         __DIR__.'/../resources/views' => resource_path('views/admin/faq'),
-    //         __DIR__ . '/../src/Controllers' => app_path('Http/Controllers/Admin/FaqManager'),
-    //         __DIR__ . '/../src/Models' => app_path('Models/Admin/Faq'),
-    //         __DIR__ . '/routes/web.php' => base_path('routes/admin/faq.php'),
-    //     ], 'faq');
-
-    //     $this->registerAdminRoutes();
-
-    // }
 
     public function boot()
     {
@@ -62,9 +42,6 @@ class FaqServiceProvider extends ServiceProvider
        
         $this->registerAdminRoutes();
 
-        if ($this->app->runningInConsole()) {
-            $this->publishWithNamespaceTransformation();
-        }
     }
 
     protected function registerAdminRoutes()
