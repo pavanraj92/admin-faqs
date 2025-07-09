@@ -33,7 +33,10 @@ composer require admin/faqs --dev
 
 1. Publish the configuration and migration files:
     ```bash
-    php artisan vendor:publish --tag=faq
+    php artisan faq:publish --force
+
+    composer dump-autoload
+    
     php artisan migrate
     ```
 2. Access the FAQ manager from your admin dashboard.
