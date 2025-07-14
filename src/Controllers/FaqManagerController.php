@@ -10,11 +10,19 @@ use admin\faqs\Models\Faq;
 
 class FaqManagerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admincan_permission:faqs_manager_list')->only(['index']);
+        $this->middleware('admincan_permission:faqs_manager_create')->only(['create', 'store']);
+        $this->middleware('admincan_permission:faqs_manager_edit')->only(['edit', 'update']);
+        $this->middleware('admincan_permission:faqs_manager_view')->only(['show']);
+        $this->middleware('admincan_permission:faqs_manager_delete')->only(['destroy']);
+    }
+
     public function index(Request $request)
     {
         try {
-            $faqs = Faq::
-                filter($request->query('keyword'))
+            $faqs = Faq::filter($request->query('keyword'))
                 ->filterByStatus($request->query('status'))
                 ->latest()
                 ->paginate(Faq::getPerPageLimit())
@@ -113,10 +121,9 @@ class FaqManagerController extends Controller
                 . ' data-id="' . $faq->id . '"'
                 . ' class="btn ' . $btnClass . ' btn-sm update-status">' . $label . '</a>';
 
-            return response()->json(['success' => true, 'message' => 'Status updated to '.$label, 'strHtml' => $strHtml]);
+            return response()->json(['success' => true, 'message' => 'Status updated to ' . $label, 'strHtml' => $strHtml]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Failed to delete record.', 'error' => $e->getMessage()], 500);
         }
     }
 }
-
