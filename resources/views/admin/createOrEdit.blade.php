@@ -1,17 +1,13 @@
 @extends('admin::admin.layouts.master')
 
 @section('title', 'Faqs Management')
-@section('meta_description')
-Manage FAQs in the admin panel. Create or edit FAQ question, answer, and status.
-@endsection
 
-@section('page-title', 'Create Faq')
+@section('page-title', isset($faq) ? 'Edit Faq' : 'Create Faq')
 
 @section('breadcrumb')
     <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.faqs.index') }}">Manage Faqs</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Create Faq</li>
+    <li class="breadcrumb-item active" aria-current="page">{{isset($faq) ? 'Edit Faq' : 'Create Faq'}}</li>
 @endsection
-
 @section('content')
     <div class="container-fluid">
         <!-- Start faq Content -->
