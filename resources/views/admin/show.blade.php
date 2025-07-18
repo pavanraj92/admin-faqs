@@ -30,7 +30,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Status</th>
-                                        <td scope="col"> {!! config('admin.constants.aryStatusLabel.' . $faq->status, 'N/A') !!}</td>
+                                        <td scope="col"> {!! config('faq.constants.aryStatusLabel.' . $faq->status, 'N/A') !!}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Created At</th>
