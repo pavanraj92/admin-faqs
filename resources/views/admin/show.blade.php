@@ -5,7 +5,7 @@
 @section('page-title', 'Faq Details')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.faqs.index') }}">Manage Faqs</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.faqs.index') }}">Faq Manager</a></li>
     <li class="breadcrumb-item active" aria-current="page">Faq Details</li>
 @endsection
 
@@ -18,7 +18,7 @@
                 <div class="card">                    
                     <div class="table-responsive">
                          <div class="card-body">      
-                            <table class="table table-responsive-lg table-no-border">
+                            <table class="table table-striped">
                                 <tbody>
                                     <tr>
                                         <th scope="row">Question</th>
