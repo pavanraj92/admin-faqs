@@ -24,6 +24,7 @@ class FaqManagerController extends Controller
         try {
             $faqs = Faq::filter($request->query('keyword'))
                 ->filterByStatus($request->query('status'))
+                ->sortable()
                 ->latest()
                 ->paginate(Faq::getPerPageLimit())
                 ->withQueryString();

@@ -5,7 +5,7 @@
 @section('page-title', isset($faq) ? 'Edit Faq' : 'Create Faq')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.faqs.index') }}">Manage Faqs</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.faqs.index') }}">Faq Manager</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{isset($faq) ? 'Edit Faq' : 'Create Faq'}}</li>
 @endsection
 @section('content')
