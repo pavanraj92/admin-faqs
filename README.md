@@ -2,13 +2,53 @@
 
 This package provides an Admin FAQ Manager for managing Frequently Asked Questions (FAQs) within your application.
 
+---
+
 ## Features
 
 - Create, edit, and delete FAQ entries
 - Organize FAQs by categories
-- WYSIWYG editor support for answers
+- CKeditor support for answers
 - SEO-friendly URLs and metadata for FAQ pages
 - User permissions and access control
+
+---
+
+## Requirements
+
+- PHP >=8.2
+- Laravel Framework >= 12.x
+
+---
+
+## Requirements
+
+- PHP >=8.2
+- Laravel Framework >= 12.x
+
+## Installation
+
+### 1. Add Git Repository to `composer.json`
+
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/pavanraj92/admin-faqs.git"
+    }
+]
+```
+
+### 2. Require the package via Composer
+    ```bash
+    composer require admin/faqs:@dev
+    ```
+
+### 3. Publish assets
+    ```bash
+    php artisan faq:publish --force
+    ```
+---
 
 ## Usage
 
@@ -27,56 +67,25 @@ This package provides an Admin FAQ Manager for managing Frequently Asked Questio
 | PUT    | `/faqs/{id}`  | Update a faq       |
 | DELETE | `/faqs/{id}`  | Delete a faq       |
 
-## Requirements
+---
 
-- PHP 8.2+
-- Laravel Framework
+## Protecting Admin Routes
 
-## Update `composer.json`
-
-Add the following to your `composer.json` to use the package from a local path:
-
-```json
-"repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/pavanraj92/admin-faqs.git"
-    }
-]
-```
-
-## Installation
-
-```bash
-composer require admin/faqs --dev
-```
-
-## Usage
-
-1. Publish the configuration and migration files:
-    ```bash
-    php artisan faq:publish --force
-
-    composer dump-autoload
-    
-    php artisan migrate
-    ```
-2. Access the FAQ manager from your admin dashboard.
-
-## CRUD Example
+Protect your routes using the provided middleware:
 
 ```php
-// Creating a new FAQ
-$faq = new Faq();
-$faq->question = 'How do I reset my password?';
-$faq->answer = '<p>You can reset your password by clicking "Forgot Password" on the login page.</p>';
-$faq->save();
+Route::middleware(['web','admin.auth'])->group(function () {
+    // Admin FAQ routes here
+});
 ```
+---
 
-## Customization
+## Database Tables
 
-You can customize views, routes, and permissions by editing the configuration file.
+- `faqs` - Stores FAQ information
+
+---
 
 ## License
 
-This package is open-sourced software licensed under the Dotsquares.write code in the readme.md file regarding to the admin/faq manager
+This package is open-sourced software licensed under the MIT license.
