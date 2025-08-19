@@ -25,16 +25,20 @@
                                     value="{{ app('request')->query('keyword') }}" placeholder="Enter question">                                   
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control select2">
-                                    <option value="">All</option>
-                                    <option value="0" {{ app('request')->query('status') == '0' ? 'selected' : '' }}>Inactive</option>
-                                    <option value="1" {{ app('request')->query('status') == '1' ? 'selected' : '' }}>Active</option>
-                                </select>                                   
+                         <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status" class="form-control select2">
+                                        <option value="">All</option>
+                                        @foreach (config('faq.constants.status') as $key => $label)
+                                            <option value="{{ $key }}"
+                                                {{ app('request')->query('status') === (string) $key ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
                           <div class="col-auto mt-1 text-right">
                             <div class="form-group">
                                 <label for="created_at">&nbsp;</label>

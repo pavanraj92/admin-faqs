@@ -35,8 +35,12 @@
                                 <div class="form-group">
                                     <label>Status<span class="text-danger">*</span></label>
                                     <select name="status" class="form-control select2" required>
-                                        <option value="1" {{ (($faq?->status ?? old('status')) == '1') ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ (($faq?->status ?? old('status')) == '0') ? 'selected' : '' }}>InActive</option>
+                                        @foreach (config('faq.constants.status', []) as $key => $label)
+                                            <option value="{{ $key }}"
+                                                {{ (isset($faq) && (string) $faq?->status === (string) $key) || old('status') === (string) $key ? 'selected' : '' }}>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     @error('status')
                                         <div class="text-danger validation-error">{{ $message }}</div>
