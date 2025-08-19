@@ -32,6 +32,11 @@ class FaqServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom(base_path('Modules/Faqs/database/migrations'));
         }
 
+        // Also merge config from published module if it exists
+        if (file_exists(base_path('Modules/Faqs/config/faqs.php'))) {
+            $this->mergeConfigFrom(base_path('Modules/Faqs/config/faqs.php'), 'faq.constants');
+        }
+
         // Only publish automatically during package installation, not on every request
         // Use 'php artisan faqs:publish' command for manual publishing
         // $this->publishWithNamespaceTransformation();
