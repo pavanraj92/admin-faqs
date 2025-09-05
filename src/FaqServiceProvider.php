@@ -20,8 +20,14 @@ class FaqServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views'      // Package views as fallback
         ], 'faq');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/faq.php', 'faq.constants');
-        
+        // Load published module config first (if it exists), then fallback to package config
+        if (file_exists(base_path('Modules/Faqs/config/faq.php'))) {
+            $this->mergeConfigFrom(base_path('Modules/Faqs/config/faq.php'), 'faq.constants');
+        } else {
+            // Fallback to package config if published config doesn't exist
+            $this->mergeConfigFrom(__DIR__ . '/../config/faq.php', 'faq.constants');
+        }
+
         // Also register module views with a specific namespace for explicit usage
         if (is_dir(base_path('Modules/Faqs/resources/views'))) {
             $this->loadViewsFrom(base_path('Modules/Faqs/resources/views'), 'faqs-module');
@@ -32,23 +38,18 @@ class FaqServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom(base_path('Modules/Faqs/database/migrations'));
         }
 
-        // Also merge config from published module if it exists
-        if (file_exists(base_path('Modules/Faqs/config/faqs.php'))) {
-            $this->mergeConfigFrom(base_path('Modules/Faqs/config/faqs.php'), 'faq.constants');
-        }
-
         // Only publish automatically during package installation, not on every request
         // Use 'php artisan faqs:publish' command for manual publishing
         // $this->publishWithNamespaceTransformation();
-        
+
         // Standard publishing for non-PHP files
         $this->publishes([
+            __DIR__ . '/../config/' => base_path('Modules/Faqs/config/'),
             __DIR__ . '/../database/migrations' => base_path('Modules/Faqs/database/migrations'),
             __DIR__ . '/../resources/views' => base_path('Modules/Faqs/resources/views/'),
         ], 'faq');
-       
-        $this->registerAdminRoutes();
 
+        $this->registerAdminRoutes();
     }
 
     protected function registerAdminRoutes()
@@ -60,7 +61,7 @@ class FaqServiceProvider extends ServiceProvider
         $admin = DB::table('admins')
             ->orderBy('created_at', 'asc')
             ->first();
-            
+
         $slug = $admin->website_slug ?? 'admin';
 
         $routeFile = base_path('Modules/Faqs/routes/web.php');
@@ -95,14 +96,14 @@ class FaqServiceProvider extends ServiceProvider
         $filesWithNamespaces = [
             // Controllers
             __DIR__ . '/../src/Controllers/FaqManagerController.php' => base_path('Modules/Faqs/app/Http/Controllers/Admin/FaqManagerController.php'),
-            
+
             // Models
             __DIR__ . '/../src/Models/Faq.php' => base_path('Modules/Faqs/app/Models/Faq.php'),
-            
+
             // Requests
             __DIR__ . '/../src/Requests/FaqCreateRequest.php' => base_path('Modules/Faqs/app/Http/Requests/FaqCreateRequest.php'),
             __DIR__ . '/../src/Requests/FaqUpdateRequest.php' => base_path('Modules/Faqs/app/Http/Requests/FaqUpdateRequest.php'),
-            
+
             // Routes
             __DIR__ . '/routes/web.php' => base_path('Modules/Faqs/routes/web.php'),
         ];
@@ -111,13 +112,13 @@ class FaqServiceProvider extends ServiceProvider
             if (File::exists($source)) {
                 // Create destination directory if it doesn't exist
                 File::ensureDirectoryExists(dirname($destination));
-                
+
                 // Read the source file
                 $content = File::get($source);
-                
+
                 // Transform namespaces based on file type
                 $content = $this->transformNamespaces($content, $source);
-                
+
                 // Write the transformed content to destination
                 File::put($destination, $content);
             }
@@ -135,12 +136,12 @@ class FaqServiceProvider extends ServiceProvider
             'namespace admin\\faqs\\Controllers;' => 'namespace Modules\\Faqs\\app\\Http\\Controllers\\Admin;',
             'namespace admin\\faqs\\Models;' => 'namespace Modules\\Faqs\\app\\Models;',
             'namespace admin\\faqs\\Requests;' => 'namespace Modules\\Faqs\\app\\Http\\Requests;',
-            
+
             // Use statements transformations
             'use admin\\faqs\\Controllers\\' => 'use Modules\\Faqs\\app\\Http\\Controllers\\Admin\\',
             'use admin\\faqs\\Models\\' => 'use Modules\\Faqs\\app\\Models\\',
             'use admin\\faqs\\Requests\\' => 'use Modules\\Faqs\\app\\Http\\Requests\\',
-            
+
             // Class references in routes
             'admin\\faqs\\Controllers\\FaqManagerController' => 'Modules\\Faqs\\app\\Http\\Controllers\\Admin\\FaqManagerController',
         ];
@@ -175,13 +176,13 @@ class FaqServiceProvider extends ServiceProvider
             'use Modules\\Faqs\\app\\Models\\Faq;',
             $content
         );
-        
+
         $content = str_replace(
             'use admin\\faqs\\Requests\\FaqCreateRequest;',
             'use Modules\\Faqs\\app\\Http\\Requests\\FaqCreateRequest;',
             $content
         );
-        
+
         $content = str_replace(
             'use admin\\faqs\\Requests\\FaqUpdateRequest;',
             'use Modules\\Faqs\\app\\Http\\Requests\\FaqUpdateRequest;',
