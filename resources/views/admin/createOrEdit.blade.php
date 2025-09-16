@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.faqs.index') }}">Faq Manager</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{isset($faq) ? 'Edit Faq' : 'Create Faq'}}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ isset($faq) ? 'Edit Faq' : 'Create Faq' }}</li>
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -21,7 +21,7 @@
                         @endif
                         @csrf
                         <div class="row">
-                            <div class="col-md-6">                                
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Question<span class="text-danger">*</span></label>
                                     <input type="text" name="question" class="form-control"
@@ -56,9 +56,10 @@
                                 <div class="text-danger validation-error">{{ $message }}</div>
                             @enderror
                         </div>
-                       
+
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" id="saveBtn">{{isset($faq) ? 'Update' : 'Save'}}</button>
+                            <button type="submit" class="btn btn-primary"
+                                id="saveBtn">{{ isset($faq) ? 'Update' : 'Save' }}</button>
                             <a href="{{ route('admin.faqs.index') }}" class="btn btn-secondary">Back</a>
                         </div>
                     </form>
@@ -69,47 +70,31 @@
     </div>
 @endsection
 
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css">
-    <!-- Select2 CSS & JS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- Custom CSS for the faq -->
-    <link rel="stylesheet" href="{{ asset('backend/custom.css') }}">           
-@endpush
-
 @push('scripts')
-    <!-- Then the jQuery Validation plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    <!-- Include the CKEditor script -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
-    <!-- Select2 CSS & JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <!-- Initialize CKEditor -->
     <script>
-     let ckEditorInstance;
-
-    ClassicEditor
-    .create(document.querySelector('#answer'))
-    .then(editor => {
-        ckEditorInstance = editor;
-
-        // optional styling
-        editor.ui.view.editable.element.style.minHeight = '250px';
-        editor.ui.view.editable.element.style.maxHeight = '250px';
-        editor.ui.view.editable.element.style.overflowY = 'auto';
-
-        // 🔥 Trigger validation on typing
-        editor.model.document.on('change:data', () => {
-            const answerVal = editor.getData();
-            $('#answer').val(answerVal); // keep textarea updated
-            $('#answer').trigger('keyup'); // trigger validation manually
+        $(document).ready(function() {
+            $('#answer').summernote({
+                height: 250, // ✅ editor height
+                minHeight: 250,
+                maxHeight: 250,
+                toolbar: [
+                    // ✨ Add "code view" toggle button
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['codeview']] // ✅ source code button
+                ],
+                callbacks: {
+                    onChange: function(contents, $editable) {
+                        // keep textarea updated
+                        $('#answer').val(contents);
+                        // trigger validation if needed
+                        $('#answer').trigger('keyup');
+                    }
+                }
+            });
         });
-    })
-    .catch(error => {
-        console.error(error);
-    });
-
     </script>
 
     <script>
@@ -142,16 +127,15 @@
                 },
                 submitHandler: function(form) {
                     // Update textarea before submit
-                    if (ckEditorInstance) {
-                        $('#answer').val(ckEditorInstance.getData());
-                    }
+                    $('#answer').val($('#answer').summernote('code'));
+
                     const $btn = $('#saveBtn');
-                    if ($btn.text().trim().toLowerCase() === 'update') {
-                        $btn.prop('disabled', true).text('Updating...');
+                    if (element.attr("id") === "answer") {
+                        error.insertAfter($('.note-editor'));
                     } else {
                         $btn.prop('disabled', true).text('Saving...');
                     }
-                    
+
                     // Now submit
                     form.submit();
                 },
